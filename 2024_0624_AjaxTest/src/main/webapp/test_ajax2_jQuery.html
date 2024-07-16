@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script> 
+
+<script type="text/javascript">
+
+	function result() {
+		
+		//let word = document.getElementById("word").value.trim();
+		let word = $('#word').val().trim();
+		
+		if(word=='') {
+			alert('단어를 입력하세요');
+			// document.getElementById("word").value = '';
+			$('#word').val() = ""; // 비우기
+			
+			// document.getElementById("word").focus(); 
+			$('#word').focus();	// 포커스
+			return;			
+		}
+		
+		// jQuety Ajax이용
+		// 형식) $.ajax({name:value, name:value, ...})
+		
+		$.ajax({
+			
+			// ,빼먹지 말기
+			async	:	true,				// true(비동기) false(동기)
+			type	:	"GET",				// 호출방식(get/post) - 생략시 기본값 get
+			url		:	"word.do",			// 호출대상
+			data	:	{ "word":word },	// parameter : word.do?word=word - 제이쓴 방식으로 넘김
+			
+			dataType:	"html",				// 서버에서 수신된 데이터 타입("xml or json")	
+			success	:	function(result){	// 요청정보가 정상처리되었을 경우 응답데이터
+				//alert(result);
+				$("#disp").html(result);
+			}, 
+			error	:	function(err){ 		// 에러발생시 콜백되는 함수 
+				alert(err.responseText);
+			}		
+			
+		});
+	}
+	
+</script>
+
+</head>
+<body>
+
+	
+단어:<input id="word">
+	<input type="button" value="결과확인" onclick="result();">
+<hr>
+<div id="disp"></div>	
+</body>
+</html>

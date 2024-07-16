@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+<!-- XMLHttpRequest 객체를 사용할 수 있는 Library연결 -->
+<script type="text/javascript" src="js/httpRequest.js"></script>
+
+<script type="text/javascript">
+
+	function result() {
+		
+		let word = document.getElementById("word").value.trim();
+		if(word=='') {
+			alert('단어를 입력하세요');
+			document.getElementById("word").value = ""; // 비우기
+			document.getElementById("word").focus();	// 포커스
+			return;			
+		}
+		
+		const url   = "word.do";		  // WordAction
+		const param = "word=" + word; // word.do?word=one
+				
+		// Ajax 통신으로 요청
+		sendRequest(url,param,callbackFn,true);
+	}
+	
+	// 결과를 수신받을 함수
+	function callbackFn() {
+		
+		let readyState = xhr.readyState;
+		let status	   = xhr.status;
+		console.log("readyState="+readyState,"status="+status);
+		
+		if(xhr.readyState==4 && xhr.status==200) 
+		{
+			let data = xhr.responseText;
+			console.log("data=" + data)
+			document.getElementById("disp").innerHTML = data;
+		}
+	}
+</script>
+
+</head>
+<body>
+
+	
+단어:<input id="word">
+	<input type="button" value="결과확인" onclick="result();">
+<hr>
+<div id="disp"></div>	
+</body>
+</html>
